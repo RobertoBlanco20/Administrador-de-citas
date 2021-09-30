@@ -1,54 +1,104 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 
 const Formulario = () => {
+
+    // Crear State de citas
+    const [cita, agregarCita] = useState({
+        mascota: '',
+        propietario: '',
+        fecha: '',
+        hora: '',
+        sintomas: ''
+    })
+
+    const [error, actualizarError] = useState(false)
+
+    // Funcion que se ejecuta cada vez que un usuario escribe en un input
+    const actualizarState = (e) => {
+        agregarCita({
+            ...cita,
+            [e.target.name]: e.target.value
+        })
+    }
+
+    // Extraer los valores para resetear el formulario 
+    const {mascota, propietario, fecha, hora, sintomas} = cita;
+
+    // Cuando el usuario presiona agregar cita
+    const submitCita = (e) => {
+        e.preventDefault();
+
+        // Validar formulario
+        if( mascota.trim() === '' || propietario.trim() === '' || fecha.trim() === '' || hora.trim() === '' || sintomas.trim() === ''  ){
+            actualizarError(true);
+            return
+        }
+
+        // Agregar ID
+
+        // Crear la cita
+
+        // Reiniciar el form
+    }
+
     return ( 
         <Fragment>
             <h2>Crear Cita</h2>
 
-            <form action="#" method="post">
-                <label for="mascota">Nombre Mascota</label>
+            { error ?  <p className="alerta-error">Todos los campos son obligatorios </p>   
+            :   null }
+
+            <form 
+                onSubmit={submitCita}>
+                <label htmlFor="mascota">Nombre Mascota</label>
                 <input 
                     type="text" 
                     name="mascota"
                     className='u-full-width' 
                     id="nombreMascota" 
                     placeholder='Nombre Mascota' 
-                    required 
+                    onChange={actualizarState}
+                    value={mascota}
                 />
                 
-                <label for='nombreDuenio'>Nombre Dueño</label>
+                <label htmlFor='nombreDuenio'>Nombre Dueño</label>
                 <input 
                     type="text" 
                     name='propietario' 
                     className='u-full-width' 
                     id="nombreDuenio" 
                     placeholder='Nombre dueño de la mascota' 
-                    required 
+                    onChange={actualizarState} 
+                    value={propietario}
                 />
                 
-                <label for='fecha'>Fecha</label>
+                <label htmlFor='fecha'>Fecha</label>
                 <input 
                     type='date' 
                     name='fecha' 
                     className='u-full-width' 
                     id='fecha' 
-                    required 
+                    onChange={actualizarState}
+                    value={fecha}
                 />
 
-                <label for='hora'>Hora</label>
+                <label htmlFor='hora'>Hora</label>
                 <input 
                     type='time' 
                     name='hora' 
                     className='u-full-width' 
                     id='hora'  
-                    required 
+                    onChange={actualizarState}
+                    value={hora}
                     />
 
-                <label for='sintomas'>Sintomas</label>
+                <label htmlFor='sintomas'>Sintomas</label>
                 <textarea 
                     name='sintomas' 
                     id='sintomas' 
                     className='u-full-width' 
+                    onChange={actualizarState}
+                    value={sintomas}
                 ></textarea>
 
                 <br/>
